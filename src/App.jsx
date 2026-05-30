@@ -135,7 +135,7 @@ function MoneyInput({ cad, onChangeCad, toDisplay, fromDisplay, t, fontSize = 26
     : Math.round(toDisplay(cad)).toLocaleString();
   return (
     <span style={{ display: "inline-flex", alignItems: "baseline", gap: 2 }}>
-      <span style={{ fontSize: fontSize * 0.72, fontWeight: 700, color: t.inkSoft }}>$</span>
+      <span style={{ fontSize: `calc(${fontSize}px * 0.72)`, fontWeight: 700, color: t.inkSoft }}>$</span>
       <input
         inputMode="decimal"
         value={shown}
@@ -151,7 +151,7 @@ function MoneyInput({ cad, onChangeCad, toDisplay, fromDisplay, t, fontSize = 26
           background: "transparent", border: "none", outline: "none",
           color: t.ink, fontFamily: "inherit", fontWeight: 700,
           fontSize, width: `${Math.max(shown.length, 3) + 0.5}ch`,
-          padding: 0,
+          padding: 0, maxWidth: "100%",
         }}
       />
     </span>
@@ -277,12 +277,12 @@ function App() {
         transition: "background .3s ease",
       }}
     >
-      <div style={{ maxWidth: 860, margin: "0 auto", padding: "20px 16px 60px" }}>
+      <div style={{ maxWidth: 860, margin: "0 auto", padding: "20px 16px calc(60px + env(safe-area-inset-bottom))" }}>
 
         {/* ===================== HEADER ===================== */}
         <header style={{ display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "space-between", alignItems: "center", marginBottom: 22 }}>
           <div>
-            <h1 style={{ fontFamily: fontHead, fontSize: 34, fontWeight: 700, margin: 0, lineHeight: 1.1 }}>
+            <h1 style={{ fontFamily: fontHead, fontSize: "clamp(26px, 8vw, 34px)", fontWeight: 700, margin: 0, lineHeight: 1.1 }}>
               My Money, Made Simple
             </h1>
             {/* 3-dot theme picker */}
@@ -440,7 +440,7 @@ function FlowView({
           <div style={{ display: "flex", alignItems: "center", gap: 8, color: t.inkSoft, fontSize: 16 }}>
             <Wallet size={20} color={t.accent} /> This Month's Income
           </div>
-          <div style={{ fontFamily: fontHead, fontSize: 38, fontWeight: 700, marginTop: 6 }}>{money(incomeTotal)}</div>
+          <div style={{ fontFamily: fontHead, fontSize: "clamp(32px, 8vw, 38px)", fontWeight: 700, marginTop: 6 }}>{money(incomeTotal)}</div>
           <div style={{ fontSize: 14, color: t.inkSoft }}>{currency}</div>
         </div>
 
@@ -448,7 +448,7 @@ function FlowView({
           <div style={{ display: "flex", alignItems: "center", gap: 8, color: t.inkSoft, fontSize: 16 }}>
             <Home size={20} color={t.accent} /> Total Fixed Bills
           </div>
-          <div style={{ fontFamily: fontHead, fontSize: 38, fontWeight: 700, marginTop: 6 }}>{money(billsTotal)}</div>
+          <div style={{ fontFamily: fontHead, fontSize: "clamp(32px, 8vw, 38px)", fontWeight: 700, marginTop: 6 }}>{money(billsTotal)}</div>
           <div style={{ fontSize: 14, color: t.inkSoft }}>{currency} planned</div>
         </div>
       </div>
@@ -465,7 +465,7 @@ function FlowView({
         <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 19, opacity: 0.95 }}>
           <PiggyBank size={26} /> Your Leftover Cash Cushion This Month
         </div>
-        <div style={{ fontFamily: fontHead, fontSize: 64, fontWeight: 700, lineHeight: 1.05, marginTop: 6 }}>
+        <div style={{ fontFamily: fontHead, fontSize: "clamp(46px, 12vw, 64px)", fontWeight: 700, lineHeight: 1.05, marginTop: 6 }}>
           {money(cushion)}
         </div>
         <div style={{ fontSize: 17, opacity: 0.95, marginTop: 4 }}>
@@ -696,7 +696,7 @@ function StretchView({
         <Sparkles size={34} />
         <div>
           <div style={{ fontSize: 18, opacity: 0.95 }}>In 6 months, you'll have a safe emergency fund of</div>
-          <div style={{ fontFamily: fontHead, fontSize: 46, fontWeight: 700, lineHeight: 1.1 }}>
+          <div style={{ fontFamily: fontHead, fontSize: "clamp(36px, 10vw, 46px)", fontWeight: 700, lineHeight: 1.1 }}>
             {money(sixMonth)}!
           </div>
         </div>
@@ -757,7 +757,8 @@ function LogModal({ t, fontHead, data, currency, toDisplay, fromDisplay, onClose
       onClick={onClose}
       style={{
         position: "fixed", inset: 0, background: "rgba(20,12,6,0.55)",
-        display: "flex", alignItems: "flex-end", justifyContent: "center", zIndex: 50, padding: 12,
+        display: "flex", alignItems: "flex-end", justifyContent: "center", zIndex: 50, 
+        padding: "12px 12px calc(24px + env(safe-area-inset-bottom)) 12px",
       }}
     >
       <div
@@ -782,7 +783,7 @@ function LogModal({ t, fontHead, data, currency, toDisplay, fromDisplay, onClose
           background: t.panelAlt, border: `2px solid ${t.line}`, borderRadius: 16,
           padding: "16px 18px", textAlign: "center", marginBottom: 14,
         }}>
-          <div style={{ fontFamily: fontHead, fontSize: 46, fontWeight: 700, color: t.ink }}>
+          <div style={{ fontFamily: fontHead, fontSize: "clamp(38px, 10vw, 46px)", fontWeight: 700, color: t.ink }}>
             ${entry === "" ? "0" : entry}
           </div>
           <div style={{ color: t.inkSoft, fontSize: 15 }}>{currency}</div>
